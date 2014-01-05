@@ -7,5 +7,7 @@ int GameObject::getImageX(){return this->imageX;}
 int GameObject::getImageY(){return this->imageY;}
 int GameObject::getWidth(){return this->width;}
 int GameObject::getHeight(){return this->height;}
+int GameObject::getImageWidth(){return this->imageWidth;}
+int GameObject::getImageHeight(){return this->imageHeight;}
 void GameObject::addX(int sum){this->x+=sum;}
 void GameObject::addY(int sum){this->y+=sum;}

@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CharacterObject.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MediaManager.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CharacterObject.h" />
+    <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\MediaManager.h" />
     <ClInclude Include="src\MovingObject.h" />

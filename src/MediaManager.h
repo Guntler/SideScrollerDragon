@@ -18,9 +18,9 @@ class MediaManager
 public:
 	MediaManager();
 	int loadTexture(string name);
-	Texture getTexture(int id);
+	Texture* getTexture(int id);
 private:
-	vector<Texture> loadedTextures;
+	vector<Texture *> loadedTextures;
 };
 
 #endif

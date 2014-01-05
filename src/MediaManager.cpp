@@ -14,8 +14,8 @@ int MediaManager::loadTexture(string name)
 {
 	string path = "../img/";
 	path.append(name);
-	Texture tex;
-	if (!tex.loadFromFile(name))
+	Texture * tex = new Texture();
+	if (!tex->loadFromFile(name))
 	{
 		cerr << strerror(errno) << "Error loading texture " << name << endl;
 		cin.get();
@@ -25,7 +25,7 @@ int MediaManager::loadTexture(string name)
 	return loadedTextures.size()-1;
 }
 
-Texture MediaManager::getTexture(int id)
+Texture * MediaManager::getTexture(int id)
 {
 	if(0<=id)
 		return loadedTextures[id];
