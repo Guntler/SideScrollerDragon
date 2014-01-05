@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+GameObject::GameObject(){}
 int GameObject::getX(){return this->x;}
 int GameObject::getY(){return this->y;}
 int GameObject::getImageX(){return this->imageX;}

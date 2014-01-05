@@ -15,12 +15,14 @@ class GameObject
 public:
 	virtual void draw(RenderWindow window) = 0;
 protected:
+	GameObject();
 	int getX();			int getY();
 	int getImageX();	int getImageY();
 	int getWidth();		int getHeight();
 	void addX(int sum);	void addY(int sum);
-private:
+protected:
 	int x,y,imageX,imageY,width,height;
+	int texID;
 };
 
 #endif

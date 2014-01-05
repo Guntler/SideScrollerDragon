@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="src\CharacterObject.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\MediaManager.cpp" />
     <ClCompile Include="src\MovingObject.cpp" />
     <ClCompile Include="src\PlayerObject.cpp" />
     <ClCompile Include="src\sfmlTest.cpp">
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="src\CharacterObject.h" />
     <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\MediaManager.h" />
     <ClInclude Include="src\MovingObject.h" />
     <ClInclude Include="src\PlayerObject.h" />
   </ItemGroup>
