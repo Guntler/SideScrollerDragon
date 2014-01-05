@@ -2,7 +2,7 @@
 
 using namespace sf;
 
-int main()
+int mainTest()
 {
     RenderWindow window(VideoMode(200, 200), "SFML works!");
     CircleShape shape(100.f);

@@ -16,8 +16,6 @@ using namespace sf;
 class MediaManager
 {
 public:
-	virtual void draw(RenderWindow window) = 0;
-protected:
 	MediaManager();
 	int loadTexture(string name);
 	Texture getTexture(int id);

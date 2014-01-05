@@ -17,7 +17,8 @@ int MediaManager::loadTexture(string name)
 	Texture tex;
 	if (!tex.loadFromFile(name))
 	{
-		cerr << strerror(errno) << "Error loading texture " << path << endl;
+		cerr << strerror(errno) << "Error loading texture " << name << endl;
+		cin.get();
 		exit(-1);
 	}
 	loadedTextures.push_back(tex);
