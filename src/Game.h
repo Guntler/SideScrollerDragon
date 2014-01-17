@@ -1,30 +1,31 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include <SFML/Graphics.hpp>
-
+#include "SFML\Graphics\RenderWindow.hpp"
+#include "SFML\Graphics\RenderWindow.hpp"
 #include "MediaManager.h"
+
+#include "SFML\Window\Event.hpp"
 #include "PlayerObject.h"
 
-#include <math.h>
+using sf::RenderWindow;
+using sf::VideoMode;
+using sf::Event;
+using namespace std;
 
-using namespace sf;
-
-/**
- *	May describe the player, a tile or an enemy.
- */
 class Game
 {
 public:
 	Game();
+	~Game();
 	void init();
 	void loop();
-	static MediaManager * getManager();
-	static RenderWindow getWindow();
+	MediaManager * getManager();
+	RenderWindow * getWindow();
 private:
-	MediaManager * Game::mManager;
-	RenderWindow Game::window;
-	PlayerObject * player;
+	MediaManager * mManager;
+	RenderWindow * window;
+	PlayerObject * subjectA;
 };
 
 #endif

@@ -2,21 +2,18 @@
 #define _PLAYEROBJECT_H
 
 #include "CharacterObject.h"
-#include "Game.h"
 
 #include <math.h>
 
 using namespace sf;
 
-class PlayerObject : protected CharacterObject
+class PlayerObject : public CharacterObject
 {
 public:
-	PlayerObject(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight);
-	Sprite getSprite();
-	void draw(RenderWindow window);
+	PlayerObject();
+	PlayerObject(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim);
 protected:
 private:
-	Sprite sprite;
 	
 };
 

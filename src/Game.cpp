@@ -2,38 +2,36 @@
 
 Game::Game()
 {
-	mManager = new MediaManager();
-	RenderWindow windowTemp(VideoMode(200, 200), "SFML works!");
-	this->window = windowTemp;
+	this->mManager = new MediaManager();
+	this->window = new RenderWindow(VideoMode(340, 240), "SideScrollerDragon");
 }
 
-void Game::init()
+Game::~Game()
 {
 }
 
-RenderWindow Game::getWindow()
-{
-	return Game::window;
+void Game::init(){
+	subjectA = new PlayerObject(0,0,0,0,16,32,4,4);
+	subjectA->setPosition(30, 35);
+	int id = this->mManager->loadTexture("hitboxes.png");
+	subjectA->setTexture(*this->mManager->getTexture(id));
 }
 
-MediaManager * Game::getManager()
-{
-	return Game::mManager;
-}
+void Game::loop(){
+	while (window->isOpen())
+	{
+		Event event;
+		while (window->pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+				window->close();
+		}
 
-void Game::loop()
-{
-	while (window.isOpen())
-    {
-        Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(playerObject->getSprite());
-        window.display();
-    }
+		window->clear();
+		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
+		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
+		window->draw(*subjectA);
+		subjectA->nextFrame();
+		window->display();
+	}
 }

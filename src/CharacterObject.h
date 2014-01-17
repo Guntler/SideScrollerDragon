@@ -7,10 +7,10 @@
 
 using namespace sf;
 
-class CharacterObject : protected MovingObject
+class CharacterObject : public MovingObject
 {
 public:
-	virtual void draw(RenderWindow window) = 0;
+	CharacterObject();
 protected:
 	int getHP();
 	bool isAffected(),hasAttack();

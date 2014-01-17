@@ -1,13 +1,8 @@
-#include "Game.h"
-#include <SFML/Graphics.hpp>
+#include "Main.h"
 
-using namespace sf;
-
-int main()
-{
+int main(){
 	Game game = Game();
 	game.init();
 	game.loop();
-
-    return 0;
+	return 0;
 }

@@ -1,26 +1,24 @@
-#ifndef _MEDIAMANAGER_H
-#define _MEDIAMANAGER_H
-
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include <iostream>
-#include <string.h>
-#include <math.h>
+#include <vector>
+#include <SFML\Graphics\Texture.hpp>
 
-using namespace std;
-using namespace sf;
+using std::vector;
+using std::string;
+using sf::Texture;
+using std::cout;
+using std::cin;
+using std::endl;
 
-/**
- *	The MediaManager stores loaded media, such as music, graphics and others.
- */
 class MediaManager
 {
 public:
 	MediaManager();
-	int loadTexture(string name);
-	Texture* getTexture(int id);
-private:
-	vector<Texture *> loadedTextures;
+	~MediaManager();
+	int loadTexture(string);
+	Texture * getTexture(int id);
+protected:
+	vector<Texture*> textures; // temporary defenition
 };
 
-#endif

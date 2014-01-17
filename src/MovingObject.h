@@ -7,10 +7,9 @@
 
 using namespace sf;
 
-class MovingObject : protected GameObject
+class MovingObject : public GameObject
 {
 public:
-	virtual void draw(RenderWindow window) = 0;
 protected:
 	int * getCollisionPts();
 	bool hasGravity();
