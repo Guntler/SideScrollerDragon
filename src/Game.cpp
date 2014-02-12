@@ -11,7 +11,7 @@ Game::~Game()
 }
 
 void Game::init(){
-	subjectA = new PlayerObject(0,0,0,0,16,32,4,4);
+	subjectA = new bases::Player(0,0,0,0,16,32,4,4);
 	subjectA->setPosition(30, 35);
 	int id = this->mManager->loadTexture("hitboxes.png");
 	subjectA->setTexture(*this->mManager->getTexture(id));

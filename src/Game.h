@@ -6,7 +6,7 @@
 #include "MediaManager.h"
 
 #include "SFML\Window\Event.hpp"
-#include "PlayerObject.h"
+#include "basesMixin.h"
 
 using sf::RenderWindow;
 using sf::VideoMode;
@@ -25,7 +25,7 @@ public:
 private:
 	MediaManager * mManager;
 	RenderWindow * window;
-	PlayerObject * subjectA;
+	GameObject * subjectA;
 };
 
 #endif
