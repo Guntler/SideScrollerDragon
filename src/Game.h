@@ -13,6 +13,8 @@ using sf::VideoMode;
 using sf::Event;
 using namespace std;
 
+
+
 class Game
 {
 public:
@@ -26,6 +28,7 @@ private:
 	MediaManager * mManager;
 	RenderWindow * window;
 	GameObject * subjectA;
+	bases::Tile * mapa[10][10];
 };
 
 #endif

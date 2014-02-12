@@ -3,6 +3,11 @@
 
 #include "GameObject.h"
 
+enum TileTypes
+{
+	SOLID, PASSABLE
+};
+
 namespace{
 	
 	template<typename base>
@@ -27,6 +32,18 @@ namespace{
 
 namespace bases{
 	
+	class Tile : public GameObject
+	{
+	public:
+		Tile() : GameObject(){ tileType = TileTypes::PASSABLE; };
+		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ tileType = TileTypes::PASSABLE; };
+		~Tile(){};
+		void setType(int type){ tileType = type; };
+		int getType(){ return tileType; };
+	private:
+		int tileType;
+	};
+
 	class Living : public GameObject
 	{
 	public:
