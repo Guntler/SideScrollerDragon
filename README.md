@@ -18,3 +18,5 @@
     * Represents an object that can move
 *  Player
     * Represents an object over which the player has control (can be branched into what type of control)
+*  Enemy
+    * Represents an object that can hurt the player (can be branched into what type of enemy)
