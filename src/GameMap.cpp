@@ -108,6 +108,8 @@ void GameMap::loadMap()
 						while (pTile)
 						{
 							curTileId = atoi(pTileset->Attribute("gid"))-firstgid;
+							int row = curTileId / tilesPerRow;
+							int imageX = row*tileSize;
 
 
 							pTile = pTile->NextSiblingElement();
