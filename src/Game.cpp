@@ -22,7 +22,7 @@ void Game::init(){
 	for (size_t i = 0; i < 10; i++){
 		for (size_t j = 0; j < 10; j++){
 			mapa[i][j] = new bases::Tile(0, 0, 0, 0, 16, 16, 2, 2);
-			mapa[i][j]->setPosition(16 * j, 16 * i);
+			mapa[i][j]->setPosition(16 * (float)j, 16 * (float)i);
 			mapa[i][j]->nextFrame();
 			mapa[i][j]->setTexture(*this->mManager->getTexture(id));
 			x = mapa[i][j]->getImageX() + mapa[i][j]->getImageWidth()*mapa[i][j]->getMaxFrame()*mapa[i][j]->getAnimSet();
