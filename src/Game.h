@@ -2,12 +2,11 @@
 #define _GAME_H
 
 #include "SFML\Graphics\RenderWindow.hpp"
-#include "SFML\Graphics\RenderWindow.hpp"
 #include "MediaManager.h"
 
 #include "SFML\Window\Event.hpp"
 #include "basesMixin.h"
-#include "Command.h"
+#include "GameMap.h"
 
 using sf::RenderWindow;
 using sf::VideoMode;
@@ -30,6 +29,7 @@ private:
 	RenderWindow * window;
 	GameObject * subjectA;
 	bases::Tile * mapa[10][10];
+	GameMap * map;
 };
 
 #endif

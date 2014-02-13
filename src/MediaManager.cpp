@@ -14,9 +14,9 @@ int MediaManager::loadTexture(string name){
 	string path = "../img/";
 	path.append(name);
 	Texture * tex = new Texture();
-	if (!tex->loadFromFile(name))
+	if (!tex->loadFromFile(path))
 	{
-		cout << "Error loading texture " << name << endl;
+		cout << "Error loading texture " << path << endl;
 		exit(-1);
 	}
 	textures.push_back(tex);

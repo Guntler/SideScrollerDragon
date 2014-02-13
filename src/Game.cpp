@@ -15,9 +15,11 @@ void Game::init(){
 	subjectA->setPosition(0, 128);
 	int id = this->mManager->loadTexture("hitboxes.png");
 	subjectA->setTexture(*this->mManager->getTexture(id));
+	map = new GameMap();
+	map->setId(this->mManager->loadTexture("tiles.png"));
 	
 	/* MAP TESTING */
-	id = this->mManager->loadTexture("tiles.png");
+	/*id = this->mManager->loadTexture("tiles.png");
 	int x;
 	for (size_t i = 0; i < 10; i++){
 		for (size_t j = 0; j < 10; j++){
@@ -35,7 +37,7 @@ void Game::init(){
 		x = mapa[9][i]->getImageX() + mapa[9][i]->getImageWidth()*mapa[9][i]->getMaxFrame()*mapa[9][i]->getAnimSet();
 		mapa[9][i]->setTextureRect(sf::IntRect(x, mapa[9][i]->getImageY(), mapa[9][i]->getImageWidth(), mapa[9][i]->getImageHeight()));
 		mapa[9][i]->setType(TileTypes::SOLID);
-	}
+	}*/
 	/* END MAP TESTING */
 }
 
@@ -54,12 +56,13 @@ void Game::loop(){
 		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
 		
+		map->drawBackground(window,*this->mManager->getTexture(map->getId()));
 		/* TEST MAP DRAW */
-		for (size_t i = 0; i < 10; i++){
+		/*for (size_t i = 0; i < 10; i++){
 			for (size_t j = 0; j < 10; j++){
 				window->draw(*mapa[i][j]);
 			}
-		}
+		}*/
 		/* TEST MAP DRAW END */
 
 		window->draw(*subjectA);
