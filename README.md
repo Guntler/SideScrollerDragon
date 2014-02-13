@@ -1,11 +1,11 @@
 # SideScrollerDragon #
 
 ## Task List Number 1 ##
-1.  [&#10003;] Redesign classes according to new Class Structure
-2.  [X] Simple drawing of objects
-3.  [X] Simple commands for handling input
-4.  [X] Simple physics
-5.  [X] Improve initial classes design
+1.  [&#x2713;] Redesign classes according to new Class Structure
+2.  [&#x2717;] Simple drawing of objects
+3.  [&#x2717;] Simple commands for handling input
+4.  [&#x2717;] Simple physics
+5.  [&#x2717;] Improve initial classes design
 
 ## Class Structure Draft (Template Mixin-Based) ##
 *  GameObject
