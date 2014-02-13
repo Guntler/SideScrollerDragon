@@ -50,6 +50,7 @@ void Game::loop(){
 		}
 
 		window->clear();
+		Command * cmd = new MoveCommand(subjectA, 1, 0);
 		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
 		
@@ -63,6 +64,8 @@ void Game::loop(){
 
 		window->draw(*subjectA);
 		subjectA->nextFrame();
+		cmd->execute();
 		window->display();
+		getchar();
 	}
 }
