@@ -4,6 +4,7 @@
 #include "SFML\Graphics\RenderWindow.hpp"
 #include <SFML\Graphics\Texture.hpp>
 
+#include <iostream>
 #include <string>
 #include "basesMixin.h"
 

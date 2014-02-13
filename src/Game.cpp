@@ -57,6 +57,7 @@ void Game::loop(){
 		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
 		
 		map->drawBackground(window,*this->mManager->getTexture(map->getId()));
+
 		/* TEST MAP DRAW */
 		/*for (size_t i = 0; i < 10; i++){
 			for (size_t j = 0; j < 10; j++){
