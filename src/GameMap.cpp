@@ -25,7 +25,7 @@ GameMap::GameMap()
 
 GameMap::GameMap(string filename)
 {
-
+	loadMap();
 }
 
 GameMap::~GameMap()
@@ -54,4 +54,71 @@ void GameMap::setId(int id)
 int GameMap::getId()
 {
 	return id;
+}
+
+void GameMap::loadMap()
+{
+	int tilesetWidth, tilesetHeight;
+	int tileSize;
+	int tilesPerRow; //=tilesetWidth/tileSize
+	string srcImage;
+	int firstgid = 0;
+	int x = 0, y = 0;
+	int curTileId;
+
+	TiXmlDocument doc("demo.tmx");
+	doc.LoadFile();
+
+	if (doc.LoadFile())
+	{
+		TiXmlHandle hDoc(&doc);
+		TiXmlElement *pMapRoot, *pTileset, *pImage, *pLayer, *pData, *pTile;
+		pMapRoot = doc.FirstChildElement("map");
+		if (pMapRoot)
+		{
+			width = atoi(pMapRoot->Attribute("width"));
+			height = atoi(pMapRoot->Attribute("height"));
+			tileSize = atoi(pMapRoot->Attribute("tilewidth"));
+
+			pTileset = pMapRoot->FirstChildElement("tileset");
+			if (pTileset)
+			{
+				firstgid = atoi(pMapRoot->Attribute("firstgid"));
+
+				pImage = pTileset->FirstChildElement("image");
+				if (pImage)
+				{
+					tilesetWidth = atoi(pTileset->Attribute("width"));
+					tilesetHeight = atoi(pTileset->Attribute("height"));
+					srcImage = pTileset->Attribute("source");
+
+					tilesPerRow = tilesetWidth / tileSize;
+				}
+			}
+			pLayer = pMapRoot->FirstChildElement("layer");
+			if (pLayer)
+			{
+				pData = pLayer->FirstChildElement("data");
+				if (pData)
+				{
+					pTile = pData->FirstChildElement("tile");
+
+					if (pTile)
+					{
+						while (pTile)
+						{
+							curTileId = atoi(pTileset->Attribute("gid"))-firstgid;
+
+
+							pTile = pTile->NextSiblingElement();
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		perror("Could not load XML File.");
+	}
 }

@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 #include "basesMixin.h"
+#include "../include/tinyxml.h"
+#include "../include/tinystr.h"
 
 using sf::Texture;
 using sf::RenderWindow;
@@ -21,8 +23,10 @@ public:
 	void drawBackground(RenderWindow * window, Texture tileset);
 	void setId(int id);
 	int getId();
+	void loadMap();
 private:
 	int id;
+	int width, height;
 	bases::Tile * layer1[10][10];
 };
 
