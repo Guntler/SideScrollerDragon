@@ -15,9 +15,10 @@ void Game::init(){
 	subjectA->setPosition(0, 128);
 	int id = this->mManager->loadTexture("hitboxes.png");
 	subjectA->setTexture(*this->mManager->getTexture(id));
-	map = new GameMap("");
 	map = new GameMap();
-	map->setId(this->mManager->loadTexture("tiles.png"));
+	string src = map->loadMap("testmap");
+	//map = new GameMap();
+	map->setId(this->mManager->loadTexture(src));
 	
 	/* MAP TESTING */
 	/*id = this->mManager->loadTexture("tiles.png");

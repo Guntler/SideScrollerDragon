@@ -2,6 +2,13 @@
 
 GameMap::GameMap()
 {
+}
+
+GameMap::~GameMap()
+{}
+
+void GameMap::loadDefault()
+{
 	//int x;
 	for (size_t i = 0; i < 10; i++){
 		for (size_t j = 0; j < 10; j++){
@@ -23,22 +30,15 @@ GameMap::GameMap()
 	}
 }
 
-GameMap::GameMap(string filename)
-{
-	loadMap();
-}
-
-GameMap::~GameMap()
-{}
-
 //Missing reference to how many tiles there are per line to calculate which tile to select correctly
 void GameMap::drawBackground(RenderWindow * window, Texture tileset)
 {
 	sf::Sprite temp;
-	for (size_t i = 0; i < 10; i++){
-		for (size_t j = 0; j < 10; j++){
+	for (size_t i = 0; i < height; i++){
+		for (size_t j = 0; j < width; j++){
 			temp = sf::Sprite(tileset);
-			temp.setPosition(layer1[i][j]->getPosition().x, layer1[i][j]->getPosition().y);
+			temp.setPosition(layer1[i][j]->getX(), layer1[i][j]->getY());
+			//cout << layer1[i][j]->getImageX() << "////" << layer1[i][j]->getImageY() << endl;
 			int x = layer1[i][j]->getImageX() + layer1[i][j]->getImageWidth()*layer1[i][j]->getMaxFrame()*layer1[i][j]->getAnimSet();
 			temp.setTextureRect(sf::IntRect(x, layer1[i][j]->getImageY(), layer1[i][j]->getImageWidth(), layer1[i][j]->getImageHeight()));
 			window->draw(temp);
@@ -56,7 +56,7 @@ int GameMap::getId()
 	return id;
 }
 
-void GameMap::loadMap()
+string GameMap::loadMap(string filename)
 {
 	int tilesetWidth, tilesetHeight;
 	int tileSize;
@@ -66,8 +66,13 @@ void GameMap::loadMap()
 	int x = 0, y = 0;
 	int curTileId;
 
-	TiXmlDocument doc("demo.tmx");
+	string path = "../assets/";
+	path.append(filename);
+	path.append(".tmx");
+	TiXmlDocument doc(path.c_str());
 	doc.LoadFile();
+
+	cout << "Successfully loaded .tmx file." << endl;
 
 	if (doc.LoadFile())
 	{
@@ -83,16 +88,33 @@ void GameMap::loadMap()
 			pTileset = pMapRoot->FirstChildElement("tileset");
 			if (pTileset)
 			{
-				firstgid = atoi(pMapRoot->Attribute("firstgid"));
+				firstgid = atoi(pTileset->Attribute("firstgid"));
 
 				pImage = pTileset->FirstChildElement("image");
 				if (pImage)
 				{
-					tilesetWidth = atoi(pTileset->Attribute("width"));
-					tilesetHeight = atoi(pTileset->Attribute("height"));
-					srcImage = pTileset->Attribute("source");
-
+					tilesetWidth = atoi(pImage->Attribute("width"));
+					tilesetHeight = atoi(pImage->Attribute("height"));
+					srcImage = pImage->Attribute("source");
 					tilesPerRow = tilesetWidth / tileSize;
+					/*if ((layer1 = (bases::Tile * **)malloc(height*sizeof(bases::Tile **))) == NULL)
+					{
+						perror("Allocating first array of layer 1.\n");
+					}
+					cout << "Successfully malloc'd." << endl;
+					for (int i = 0; i < height; i++)
+					{
+						if ((layer1[i] = (bases::Tile * *)malloc(width*sizeof(bases::Tile *))) == NULL)
+						{
+							perror("Allocating second array of layer 1.\n");
+						}
+					}
+					cout << "Successfully malloc'd twice." << endl;*/
+					for (size_t i = 0; i < width; i++)
+					{
+						vector<bases::Tile *> newVector;
+						layer1.push_back(newVector);
+					}
 				}
 			}
 			pLayer = pMapRoot->FirstChildElement("layer");
@@ -107,12 +129,42 @@ void GameMap::loadMap()
 					{
 						while (pTile)
 						{
-							curTileId = atoi(pTileset->Attribute("gid"))-firstgid;
-							int row = curTileId / tilesPerRow;
-							int imageX = row*tileSize;
-
-
+							int row = 0;
+							int column = 0;
+							curTileId = atoi(pTile->Attribute("gid"))- firstgid;
+							/*if ((curTileId % tilesPerRow)!=0)
+								row = (curTileId / tilesPerRow );
+							else
+							{
+								row = (curTileId / tilesPerRow) - 1;
+							}*/
+							row = (curTileId / tilesPerRow);
+							int imageY = abs(row*tileSize);
+							
+							int imageX;
+							if (curTileId < tilesPerRow)
+							{
+								imageX = abs(curTileId*tileSize);
+							}
+							else
+							{
+								column = curTileId - tilesPerRow*row;
+								imageX = abs(column*tileSize);
+							}
+							
+							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1));
+							//cout << x << "////" << y << "/////" << imageX << "////" << imageY << endl;
 							pTile = pTile->NextSiblingElement();
+
+							x++;
+							if (x > (width-1))
+							{
+								x = 0;
+								y++;
+							}
+
+							if (y > (height - 1))
+								break;
 						}
 					}
 				}
@@ -123,4 +175,6 @@ void GameMap::loadMap()
 	{
 		perror("Could not load XML File.");
 	}
+
+	return srcImage;
 }

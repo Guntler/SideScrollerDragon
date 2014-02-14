@@ -41,7 +41,7 @@ namespace bases{
 		void setType(int type){ tileType = type; };
 		int getType(){ return tileType; };
 	private:
-		int tileType, tileNumber;
+		int tileType;
 	};
 
 	class Living : public GameObject

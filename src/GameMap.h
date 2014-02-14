@@ -23,11 +23,13 @@ public:
 	void drawBackground(RenderWindow * window, Texture tileset);
 	void setId(int id);
 	int getId();
-	void loadMap();
+	string loadMap(string filename);
+	void loadDefault();
 private:
 	int id;
 	int width, height;
-	bases::Tile * layer1[10][10];
+	bases::Tile * ** background;
+	vector< vector<bases::Tile *> > layer1;
 };
 
 #endif
