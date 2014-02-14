@@ -30,7 +30,6 @@ void GameMap::loadDefault()
 	}
 }
 
-//Missing reference to how many tiles there are per line to calculate which tile to select correctly
 void GameMap::drawBackground(RenderWindow * window, Texture tileset)
 {
 	sf::Sprite temp;
