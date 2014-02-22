@@ -36,7 +36,7 @@ namespace bases{
 	{
 	public:
 		Tile() : GameObject(){ tileType = TileTypes::PASSABLE; };
-		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ tileType = TileTypes::PASSABLE; };
+		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim, TileTypes type = TileTypes::PASSABLE) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ this->tileType = type; };
 		~Tile(){};
 		void setType(int type){ tileType = type; };
 		int getType(){ return tileType; };
