@@ -7,6 +7,21 @@
     <property name="id" value="1"/>
    </properties>
   </tile>
+  <tile id="1">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
   <tile id="8">
    <properties>
     <property name="id" value="1"/>
@@ -20,6 +35,36 @@
   <tile id="12">
    <properties>
     <property name="id" value="1"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="id" value="0"/>
    </properties>
   </tile>
  </tileset>
