@@ -76,7 +76,7 @@ string GameMap::loadMap(string filename)
 	if (doc.LoadFile())
 	{
 		TiXmlHandle hDoc(&doc);
-		TiXmlElement *pMapRoot, *pTileset, *pImage, *pLayer, *pData, *pTile;
+		TiXmlElement *pMapRoot, *pTileset, *pImage, *pLayer, *pData, *pTile, *pProperties, *pProperty;
 		pMapRoot = doc.FirstChildElement("map");
 		if (pMapRoot)
 		{
@@ -151,7 +151,34 @@ string GameMap::loadMap(string filename)
 								imageX = abs(column*tileSize);
 							}
 							
-							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1));
+							int values[5] = { 0 };
+							TileTypes type;
+							string attribute;
+							pProperties = pTile->FirstChildElement("properties");
+
+							if (pProperties)
+							{
+								pProperty = pProperties->FirstChildElement("properties");
+								if (pProperty)
+								{
+									while (pProperty)
+									{
+										attribute = pProperty->Attribute("name");
+
+										if (attribute == "id")
+										{
+											values[0] = atoi(pProperty->Attribute("value"));
+											if (values[0] == 0)
+												type = TileTypes::PASSABLE;
+											else if (values[0] == 1)
+												type = TileTypes::SOLID;
+										}
+										pProperty = pProperty->NextSiblingElement();
+									}
+								}
+							}
+
+							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1, type));
 							//cout << x << "////" << y << "/////" << imageX << "////" << imageY << endl;
 							pTile = pTile->NextSiblingElement();
 
