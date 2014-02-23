@@ -12,7 +12,7 @@ void GameMap::loadDefault()
 	//int x;
 	for (size_t i = 0; i < 10; i++){
 		for (size_t j = 0; j < 10; j++){
-			layer1[i][j] = new bases::Tile(16 * j, 16 * i, 16, 0, 16, 16, 1, 1);
+			layer1[i][j] = new bases::Tile(16 * j, 16 * i, 16, 0, 16, 16, 1, 1,0);
 			layer1[i][j]->setPosition(16 * j, 16 * i);
 			//layer1[i][j]->nextFrame();
 			//x = layer1[i][j]->getImageX() + layer1[i][j]->getImageWidth()*layer1[i][j]->getMaxFrame()*layer1[i][j]->getAnimSet();
@@ -21,12 +21,12 @@ void GameMap::loadDefault()
 	}
 
 	for (size_t i = 0; i < 10; i++){
-		layer1[9][i] = new bases::Tile(16 * i, 160, 0, 0, 16, 16, 1, 1);
+		layer1[9][i] = new bases::Tile(16 * i, 160, 0, 0, 16, 16, 1, 1,0);
 		layer1[9][i]->setPosition(16 * i, 16*9);
 		//layer1[9][i]->previousFrame();
 		//x = layer1[9][i]->getImageX() + layer1[9][i]->getImageWidth()*layer1[9][i]->getMaxFrame()*layer1[9][i]->getAnimSet();
 		//layer1[9][i]->setTextureRect(sf::IntRect(x, layer1[9][i]->getImageY(), layer1[9][i]->getImageWidth(), layer1[9][i]->getImageHeight()));
-		layer1[9][i]->setType(TileTypes::SOLID);
+		//layer1[9][i]->setType(TileTypes::SOLID);
 	}
 }
 
@@ -76,7 +76,7 @@ string GameMap::loadMap(string filename)
 	if (doc.LoadFile())
 	{
 		TiXmlHandle hDoc(&doc);
-		TiXmlElement *pMapRoot, *pTileset, *pImage, *pLayer, *pData, *pTile, *pProperties, *pProperty;
+		TiXmlElement *pMapRoot, *pTileset, *pImage, *pTileProp, *pLayer, *pData, *pTile, *pProperties, *pProperty;
 		pMapRoot = doc.FirstChildElement("map");
 		if (pMapRoot)
 		{
@@ -115,6 +115,38 @@ string GameMap::loadMap(string filename)
 						layer1.push_back(newVector);
 					}
 				}
+				pTileProp = pTileset->FirstChildElement("tile");
+				int tilePropId = 0;
+				if (pTileProp)
+				{
+					while (pTileProp)
+					{
+						tilePropId = atoi(pTileProp->Attribute("id"));
+
+						string attribute;
+						int value;
+						pProperties = pTileProp->FirstChildElement("properties");
+
+						if (pProperties)
+						{
+							pProperty = pProperties->FirstChildElement("property");
+							if (pProperty)
+							{
+								while (pProperty)
+								{
+									attribute = pProperty->Attribute("name");
+									value = atoi(pProperty->Attribute("value"));
+
+									templateMap.insert({ attribute, value });
+
+									pProperty = pProperty->NextSiblingElement();
+								}
+							}
+						}
+
+						pTileProp = pTileProp->NextSiblingElement();
+					}
+				}
 			}
 			pLayer = pMapRoot->FirstChildElement("layer");
 			if (pLayer)
@@ -150,35 +182,8 @@ string GameMap::loadMap(string filename)
 								column = curTileId - tilesPerRow*row;
 								imageX = abs(column*tileSize);
 							}
-							
-							int values[5] = { 0 };
-							TileTypes type;
-							string attribute;
-							pProperties = pTile->FirstChildElement("properties");
 
-							if (pProperties)
-							{
-								pProperty = pProperties->FirstChildElement("properties");
-								if (pProperty)
-								{
-									while (pProperty)
-									{
-										attribute = pProperty->Attribute("name");
-
-										if (attribute == "id")
-										{
-											values[0] = atoi(pProperty->Attribute("value"));
-											if (values[0] == 0)
-												type = TileTypes::PASSABLE;
-											else if (values[0] == 1)
-												type = TileTypes::SOLID;
-										}
-										pProperty = pProperty->NextSiblingElement();
-									}
-								}
-							}
-
-							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1, type));
+							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1,curTileId));
 							//cout << x << "////" << y << "/////" << imageX << "////" << imageY << endl;
 							pTile = pTile->NextSiblingElement();
 

@@ -35,13 +35,13 @@ namespace bases{
 	class Tile : public GameObject
 	{
 	public:
-		Tile() : GameObject(){ tileType = TileTypes::PASSABLE; };
-		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim, TileTypes type = TileTypes::PASSABLE) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ this->tileType = type; };
+		Tile() : GameObject(){ templateId = 0; };
+		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim, int id) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ this->templateId = id; };
 		~Tile(){};
-		void setType(int type){ tileType = type; };
-		int getType(){ return tileType; };
+		void setId(int id){ templateId = id; };
+		int getId(){ return templateId; };
 	private:
-		int tileType;
+		int templateId;
 	};
 
 	class Living : public GameObject

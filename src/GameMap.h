@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include "basesMixin.h"
 #include "../include/tinyxml.h"
 #include "../include/tinystr.h"
@@ -30,6 +31,7 @@ private:
 	int width, height;
 	bases::Tile * ** background;
 	vector< vector<bases::Tile *> > layer1;
+	unordered_map<string, int> templateMap;
 };
 
 #endif
