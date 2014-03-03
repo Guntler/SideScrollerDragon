@@ -40,3 +40,11 @@ void GameObject::nextFrame(){if(maxFrame>curFrame){curFrame++;imageX+=imageWidth
 void GameObject::previousFrame(){if(0!=curFrame){curFrame--;imageX-=imageWidth;}else{curFrame=maxFrame;imageX+=imageWidth*(maxFrame-1);}}
 void GameObject::nextAnimation(){if(maxAnim>curAnim){curAnim++;imageY+=imageHeight;}else{curAnim=1;imageY-=imageHeight*(maxAnim-1);}}
 void GameObject::previousAnimation(){if(0!=curAnim){curAnim--;imageY-=imageHeight;}else{curAnim=maxAnim;imageY+=imageHeight*(maxAnim-1);}}
+
+bool GameObject::isIntersecting(GameObject passiveObject)
+{
+	if (this->getPosition().x >= passiveObject.getPosition().x)
+	{
+		//code
+	}
+}
