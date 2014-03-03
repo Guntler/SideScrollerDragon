@@ -47,4 +47,6 @@ bool GameObject::isIntersecting(GameObject passiveObject)
 	{
 		//code
 	}
+
+	return false;
 }
