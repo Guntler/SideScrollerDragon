@@ -7,6 +7,7 @@
 #include "SFML\Window\Event.hpp"
 #include "basesMixin.h"
 #include "GameMap.h"
+#include "InputHandler.h"
 
 using sf::RenderWindow;
 using sf::VideoMode;

@@ -52,9 +52,20 @@ void Game::loop(){
 			if (event.type == Event::Closed)
 				window->close();
 		}
-
+		inputHandler::update();
 		window->clear();
-		Command * cmd = new MoveCommand(subjectA, 1, 0);
+		Command * cmd;
+		int moveX = 0, moveY = 0;
+		if (inputHandler::checkKey(sf::Keyboard::Up).first)
+			moveY--;
+		if (inputHandler::checkKey(sf::Keyboard::Down).first)
+			moveY++;
+		if (inputHandler::checkKey(sf::Keyboard::Left).first)
+			moveX--;
+		if (inputHandler::checkKey(sf::Keyboard::Right).first)
+			moveX++;
+		
+		cmd = new MoveCommand(subjectA, moveX, moveY);
 		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
 		
@@ -71,7 +82,7 @@ void Game::loop(){
 		window->draw(*subjectA);
 		subjectA->nextFrame();
 		cmd->execute();
+		delete cmd;
 		window->display();
-		getchar();
 	}
 }
