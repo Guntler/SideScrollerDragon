@@ -4,6 +4,7 @@ Game::Game()
 {
 	this->mManager = new MediaManager();
 	this->window = new RenderWindow(VideoMode(160, 160), "SideScrollerDragon");
+	mainView = sf::View(sf::FloatRect(0, 0, 160, 160));
 }
 
 Game::~Game()
@@ -19,7 +20,6 @@ void Game::init(){
 	string src = map->loadMap("testmap");
 	//map = new GameMap();
 	map->setId(this->mManager->loadTexture(src));
-	
 	/* MAP TESTING */
 	/*id = this->mManager->loadTexture("tiles.png");
 	int x;
@@ -41,6 +41,7 @@ void Game::init(){
 		mapa[9][i]->setType(TileTypes::SOLID);
 	}*/
 	/* END MAP TESTING */
+	window->setView(mainView);
 }
 
 void Game::loop(){

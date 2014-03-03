@@ -28,6 +28,7 @@ private:
 	RenderWindow * window;
 	GameObject * subjectA;
 	bases::Tile * mapa[10][10];
+	sf::View mainView;
 	GameMap * map;
 };
 
