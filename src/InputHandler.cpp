@@ -1,8 +1,6 @@
 #include "InputHandler.h"
 
 keyboardMap Data::inputMap = init();
-clock_t Data::lastHandle = 0;
-bool Data::status = true;
 
 void updateKey(sf::Keyboard::Key pressedKey){
 	std::map<sf::Keyboard::Key, std::pair<bool, bool>>::iterator it;
@@ -25,21 +23,12 @@ void updateKey(sf::Keyboard::Key pressedKey){
 }
 
 void inputHandler::update(){
-	Data::status = false;
-	clock_t now = clock() - Data::lastHandle;
-	if ((now - Data::lastHandle) > Data::tickRange){
-		Data::lastHandle = now;
 		::updateKey(sf::Keyboard::Up);
 		::updateKey(sf::Keyboard::Down);
 		::updateKey(sf::Keyboard::Left);
 		::updateKey(sf::Keyboard::Right);
-		Data::status = true;
-	}
 }
 
 std::pair<bool, bool> inputHandler::checkKey(sf::Keyboard::Key pressedKey){
-	if (Data::status)
 		return Data::inputMap.find(pressedKey)->second;
-	else
-		return std::make_pair<bool, bool>(false, false);
 }
