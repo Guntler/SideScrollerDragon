@@ -45,6 +45,15 @@ void Game::init(){
 }
 
 void Game::loop(){
+	const int TICKS_SECOND = 25;
+	const int TICKS_SKIP = 1000 / TICKS_SECOND;
+	const int MAX_FRAMESKIP = 5;
+	sf::Clock clock;
+	sf::Int32 ticks = sf::Time(clock.getElapsedTime()).asMilliseconds();
+
+	int loops;
+	//float interpolation; //needed for the draw method
+
 	while (window->isOpen())
 	{
 		Event event;
@@ -53,37 +62,46 @@ void Game::loop(){
 			if (event.type == Event::Closed)
 				window->close();
 		}
-		inputHandler::update();
 		window->clear();
-		Command * cmd;
-		int moveX = 0, moveY = 0;
-		if (inputHandler::checkKey(sf::Keyboard::Up).first)
-			moveY -= 1;
-		if (inputHandler::checkKey(sf::Keyboard::Down).first)
-			moveY += 1;
-		if (inputHandler::checkKey(sf::Keyboard::Left).first)
-			moveX -= 1;
-		if (inputHandler::checkKey(sf::Keyboard::Right).first)
-			moveX += 1;
-		
-		cmd = new MoveCommand(subjectA, moveX, moveY);
-		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
-		subjectA->setTextureRect(sf::IntRect(x,subjectA->getImageY(),subjectA->getImageWidth(),subjectA->getImageHeight()));
-		
-		map->drawBackground(window,*this->mManager->getTexture(map->getId()));
-
-		/* TEST MAP DRAW */
-		/*for (size_t i = 0; i < 10; i++){
-			for (size_t j = 0; j < 10; j++){
-				window->draw(*mapa[i][j]);
-			}
-		}*/
-		/* TEST MAP DRAW END */
-
+		loops = 0;
+		while (sf::Time(clock.getElapsedTime()).asMilliseconds() > ticks && loops < MAX_FRAMESKIP) {
+			update();
+			ticks += TICKS_SKIP;
+			loops++;
+		}
+		map->drawBackground(window, *this->mManager->getTexture(map->getId()));
 		window->draw(*subjectA);
-		subjectA->nextFrame();
-		cmd->execute();
-		delete cmd;
 		window->display();
 	}
+}
+
+void Game::update(){
+	inputHandler::update();
+
+	Command * cmd;
+	int moveX = 0, moveY = 0;
+	if (inputHandler::checkKey(sf::Keyboard::Up).first)
+		moveY -= 1;
+	if (inputHandler::checkKey(sf::Keyboard::Down).first)
+		moveY += 1;
+	if (inputHandler::checkKey(sf::Keyboard::Left).first)
+		moveX -= 1;
+	if (inputHandler::checkKey(sf::Keyboard::Right).first)
+		moveX += 1;
+
+	cmd = new MoveCommand(subjectA, moveX, moveY);
+	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
+	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
+
+	/* TEST MAP DRAW */
+	/*for (size_t i = 0; i < 10; i++){
+	for (size_t j = 0; j < 10; j++){
+	window->draw(*mapa[i][j]);
+	}
+	}*/
+	/* TEST MAP DRAW END */
+
+	subjectA->nextFrame();
+	cmd->execute();
+	delete cmd;
 }

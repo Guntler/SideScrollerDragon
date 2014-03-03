@@ -21,6 +21,7 @@ public:
 	~Game();
 	void init();
 	void loop();
+	void update();
 	MediaManager * getManager();
 	RenderWindow * getWindow();
 private:
