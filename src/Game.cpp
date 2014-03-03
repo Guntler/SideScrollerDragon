@@ -58,13 +58,13 @@ void Game::loop(){
 		Command * cmd;
 		int moveX = 0, moveY = 0;
 		if (inputHandler::checkKey(sf::Keyboard::Up).first)
-			moveY--;
+			moveY -= 2;
 		if (inputHandler::checkKey(sf::Keyboard::Down).first)
-			moveY++;
+			moveY += 2;
 		if (inputHandler::checkKey(sf::Keyboard::Left).first)
-			moveX--;
+			moveX -= 2;
 		if (inputHandler::checkKey(sf::Keyboard::Right).first)
-			moveX++;
+			moveX += 2;
 		
 		cmd = new MoveCommand(subjectA, moveX, moveY);
 		int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();

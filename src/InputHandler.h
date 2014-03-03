@@ -4,6 +4,7 @@
 #include "SFML\Window\Keyboard.hpp"
 #include <map>
 #include <iostream> //for debug cout
+#include <ctime>
 
 typedef std::map<sf::Keyboard::Key, std::pair<bool, bool>> keyboardMap;
 typedef std::pair<sf::Keyboard::Key, std::pair<bool, bool>> keyboardValue;
@@ -12,6 +13,9 @@ namespace{
 	class Data{
 	public:
 		static keyboardMap inputMap;
+		static clock_t lastHandle;
+		static const clock_t tickRange = CLOCKS_PER_SEC / 25;
+		static bool status;
 		static keyboardMap init(){
 			keyboardMap m;
 			m.insert(keyboardValue(sf::Keyboard::Up, std::make_pair(true, true)));
