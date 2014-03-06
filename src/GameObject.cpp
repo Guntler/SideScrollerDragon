@@ -11,6 +11,9 @@ GameObject::GameObject()
 
 GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim)
 {
+	// FPS
+	float mScale = 60.f;
+
 	this->x = x;
 	this->y = y;
 	this->imageX = imageX;
@@ -25,10 +28,14 @@ GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int
 	this->colWidth = 16;
 	this->colHeight = 16;
 	colBox = sf::RectangleShape(sf::Vector2f(colWidth, colHeight));
-	curSpeed = sf::Vector2f(0, 0);
 	direction = sf::Vector2f(0, 0);
-	acceleration = sf::Vector2f(0, 0);
-	targetSpeed = sf::Vector2f(0, 0);
+
+	accX = 0.2f * mScale;
+	accY = 0.5f * mScale;
+	decX = 0.3f * mScale;
+	speed = sf::Vector2f(0, 0);
+	maxSpeed = sf::Vector2f(5.0f * mScale, 10.0f * mScale);
+	jumpStartSpeed = 8.f * mScale;
 }
 
 GameObject::~GameObject()
@@ -45,6 +52,10 @@ int GameObject::getColWidth(){ return colWidth; }
 int GameObject::getColHeight(){ return colHeight; }
 int GameObject::getAnimSet(){return animSet;}
 int GameObject::getMaxFrame(){return maxFrame;}
+float GameObject::getAccX(){ return accX; }
+float GameObject::getDecX(){ return decX; }
+float GameObject::getAccY(){ return accY; }
+float GameObject::getJumpStartSpeed(){ return jumpStartSpeed; }
 void GameObject::nextFrame(){if(maxFrame>curFrame){curFrame++;imageX+=imageWidth;}else{curFrame=1;imageX-=imageWidth*(maxFrame-1);}}
 void GameObject::previousFrame(){if(0!=curFrame){curFrame--;imageX-=imageWidth;}else{curFrame=maxFrame;imageX+=imageWidth*(maxFrame-1);}}
 void GameObject::nextAnimation(){if(maxAnim>curAnim){curAnim++;imageY+=imageHeight;}else{curAnim=1;imageY-=imageHeight*(maxAnim-1);}}
