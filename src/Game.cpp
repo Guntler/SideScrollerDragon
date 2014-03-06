@@ -88,8 +88,11 @@ void Game::update(){
 		moveX -= 1;
 	if (inputHandler::checkKey(sf::Keyboard::Right).first)
 		moveX += 1;
-
+	Camera::scrollCamera(subjectA, &mainView);
+	window->setView(mainView);
+	cout << "View x: " << mainView.getCenter().x << endl << "View y: " << mainView.getCenter().y << endl;
 	cmd = new MoveCommand(subjectA, moveX, moveY);
+	cout << "Subject x: " << subjectA->getPosition().x << endl << "Subject y: " << subjectA->getPosition().y << endl;
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
 

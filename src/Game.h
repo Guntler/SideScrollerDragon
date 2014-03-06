@@ -8,6 +8,7 @@
 #include "basesMixin.h"
 #include "GameMap.h"
 #include "InputHandler.h"
+#include "Camera.h"
 
 using sf::RenderWindow;
 using sf::VideoMode;
