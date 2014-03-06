@@ -27,7 +27,7 @@ GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int
 	this->animSet = 0;
 	this->colWidth = 16;
 	this->colHeight = 16;
-	colBox = sf::RectangleShape(sf::Vector2f(colWidth, colHeight));
+	colBox = sf::RectangleShape(sf::Vector2f((float)colWidth, (float)colHeight));
 	direction = sf::Vector2f(0, 0);
 
 	accX = 0.2f * mScale;
