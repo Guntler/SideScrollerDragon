@@ -3,8 +3,6 @@
 
 #include "SFML\Window\Keyboard.hpp"
 #include <map>
-#include <iostream> //for debug cout
-#include <ctime>
 
 typedef std::map<sf::Keyboard::Key, std::pair<bool, bool>> keyboardMap;
 typedef std::pair<sf::Keyboard::Key, std::pair<bool, bool>> keyboardValue;

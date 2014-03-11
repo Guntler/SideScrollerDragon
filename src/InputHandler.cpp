@@ -7,10 +7,9 @@ void updateKey(sf::Keyboard::Key pressedKey){
 	if (sf::Keyboard::isKeyPressed(pressedKey)){
 		it = Data::inputMap.find(pressedKey);
 		if (it->second.second){
-			std::cout << "Key already pressed " << pressedKey << std::endl;
+
 		}
 		else{
-			std::cout << "Key pressed " << pressedKey << std::endl;
 			it->second.first = true;
 			it->second.second = true;
 		}

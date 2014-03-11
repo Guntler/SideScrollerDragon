@@ -1,6 +1,9 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#define WINDOW_WIDTH 280
+#define WINDOW_HEIGHT 160
+
 #include "SFML\Graphics\RenderWindow.hpp"
 #include "MediaManager.h"
 #include "Command.h"

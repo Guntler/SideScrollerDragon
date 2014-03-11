@@ -1,16 +1,16 @@
 #include "Camera.h"
 
-void Camera::scrollCamera(GameObject * obj, sf::View * view){
-	if (obj->getPosition().x + 15 > view->getCenter().x){ // && obj->getPosition().x < MAX - 80
-		view->setCenter(view->getCenter().x + (obj->getPosition().x - view->getCenter().x + 15), view->getCenter().y);
+void Camera::scrollCamera(GameObject * obj, sf::View * view, int windowWidth, int windowHeight, int mapWidth, int mapHeight){
+	if (obj->getPosition().x > view->getCenter().x && view->getCenter().x < (mapWidth - windowWidth / 2)){
+		view->setCenter(view->getCenter().x + (obj->getPosition().x - view->getCenter().x), view->getCenter().y);
 	}
-	if (view->getCenter().x > obj->getPosition().x && obj->getPosition().x > 80){
-		view->setCenter(view->getCenter().x + (obj->getPosition().x - view->getCenter().x + 15), view->getCenter().y);
+	else if (obj->getPosition().x < view->getCenter().x  && view->getCenter().x > (windowWidth / 2)){
+		view->setCenter(view->getCenter().x - (view->getCenter().x - obj->getPosition().x), view->getCenter().y);
 	}
-	if (obj->getPosition().y - 15 > view->getCenter().y){ // && obj->getPosition().y < MAX - 80
-		view->setCenter(view->getCenter().x, view->getCenter().y + (obj->getPosition().y - 15 - view->getCenter().y));
+	if (obj->getPosition().y > view->getCenter().y && view->getCenter().y < (mapHeight - windowHeight / 2)){
+		view->setCenter(view->getCenter().x, view->getCenter().y + (obj->getPosition().y - view->getCenter().y));
 	}
-	if (obj->getPosition().y < view->getCenter().y && obj->getPosition().y >= 80){
+	else if (obj->getPosition().y < view->getCenter().y && obj->getPosition().y > (windowHeight / 2)){
 		view->setCenter(view->getCenter().x, view->getCenter().y - (view->getCenter().y - obj->getPosition().y));
 	}
 }

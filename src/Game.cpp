@@ -3,8 +3,8 @@
 Game::Game()
 {
 	this->mManager = new MediaManager();
-	this->window = new RenderWindow(VideoMode(160, 160), "SideScrollerDragon");
-	mainView = sf::View(sf::FloatRect(0, 0, 160, 160));
+	this->window = new RenderWindow(VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "SideScrollerDragon");
+	mainView = sf::View(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
 Game::~Game()
@@ -88,11 +88,9 @@ void Game::update(){
 		moveX -= 1;
 	if (inputHandler::checkKey(sf::Keyboard::Right).first)
 		moveX += 1;
-	Camera::scrollCamera(subjectA, &mainView);
+	Camera::scrollCamera(subjectA, &mainView, WINDOW_WIDTH, WINDOW_HEIGHT, map->getSize().x*16, map->getSize().y*16);
 	window->setView(mainView);
-	cout << "View x: " << mainView.getCenter().x << endl << "View y: " << mainView.getCenter().y << endl;
 	cmd = new MoveCommand(subjectA, moveX, moveY);
-	cout << "Subject x: " << subjectA->getPosition().x << endl << "Subject y: " << subjectA->getPosition().y << endl;
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
 

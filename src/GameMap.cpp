@@ -7,6 +7,9 @@ GameMap::GameMap()
 GameMap::~GameMap()
 {}
 
+sf::Vector2i GameMap::getSize(){
+	return sf::Vector2i(width, height);
+}
 void GameMap::loadDefault()
 {
 	//int x;

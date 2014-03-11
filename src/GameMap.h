@@ -26,6 +26,7 @@ public:
 	int getId();
 	string loadMap(string filename);
 	void loadDefault();
+	sf::Vector2i getSize();
 private:
 	int id;
 	int width, height;
