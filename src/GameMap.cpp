@@ -15,7 +15,7 @@ void GameMap::loadDefault()
 	//int x;
 	for (size_t i = 0; i < 10; i++){
 		for (size_t j = 0; j < 10; j++){
-			layer1[i][j] = new bases::Tile(16 * j, 16 * i, 16, 0, 16, 16, 1, 1,0);
+			layer1[i][j] = new bases::Tile(16 * j, 16 * i, 16, 0, 16, 16, 1, 1,0,0,0);
 			layer1[i][j]->setPosition(16 * j, 16 * i);
 			//layer1[i][j]->nextFrame();
 			//x = layer1[i][j]->getImageX() + layer1[i][j]->getImageWidth()*layer1[i][j]->getMaxFrame()*layer1[i][j]->getAnimSet();
@@ -24,7 +24,7 @@ void GameMap::loadDefault()
 	}
 
 	for (size_t i = 0; i < 10; i++){
-		layer1[9][i] = new bases::Tile(16 * i, 160, 0, 0, 16, 16, 1, 1,0);
+		layer1[9][i] = new bases::Tile(16 * i, 160, 0, 0, 16, 16, 1, 1,0,0,0);
 		layer1[9][i]->setPosition(16 * i, 16*9);
 		//layer1[9][i]->previousFrame();
 		//x = layer1[9][i]->getImageX() + layer1[9][i]->getImageWidth()*layer1[9][i]->getMaxFrame()*layer1[9][i]->getAnimSet();
@@ -186,7 +186,7 @@ string GameMap::loadMap(string filename)
 								imageX = abs(column*tileSize);
 							}
 
-							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1,curTileId));
+							layer1[y].push_back(new bases::Tile(x*tileSize, y*tileSize, imageX, imageY, tileSize, tileSize, 1, 1,curTileId, 0,0));
 							//cout << x << "////" << y << "/////" << imageX << "////" << imageY << endl;
 							pTile = pTile->NextSiblingElement();
 

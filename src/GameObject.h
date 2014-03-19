@@ -1,4 +1,7 @@
 #pragma once
+
+#include <utility>
+
 #include <SFML\Graphics\RectangleShape.hpp>
 #include <SFML\Graphics\Sprite.hpp>
 
@@ -24,6 +27,8 @@ public:
 	sf::Vector2f getSpeed() { return speed; }
 	sf::Vector2f getMaxSpeed() { return maxSpeed; }
 	sf::Vector2f getActualMaxSpeed() { return actualMaxSpeed; }
+	bool isJumping() { return jumping; }
+	void toggleJumping() { if (jumping)jumping = false; else jumping = true; }
 
 	/* Frame Related */
 	void nextFrame(), previousFrame(), nextAnimation(), previousAnimation();
@@ -43,6 +48,8 @@ protected:
 	sf::Vector2f actualMaxSpeed;
 	float jumpStartSpeed;
 	float accY;		//Force to apply because of gravity
-
+	std::pair<int, int> col_points[8];
+	bool jumping;
+	bool jumpKeyDown;
 };
 

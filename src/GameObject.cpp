@@ -28,14 +28,6 @@ GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int
 	this->colWidth = 16;
 	this->colHeight = 16;
 	colBox = sf::RectangleShape(sf::Vector2f((float)colWidth, (float)colHeight));
-	direction = sf::Vector2f(0, 0);
-
-	accX = 0.2f * mScale;
-	accY = 0.5f * mScale;
-	decX = 0.3f * mScale;
-	speed = sf::Vector2f(0, 0);
-	maxSpeed = sf::Vector2f(5.0f * mScale, 10.0f * mScale);
-	jumpStartSpeed = 8.f * mScale;
 }
 
 GameObject::~GameObject()

@@ -25,8 +25,26 @@ namespace{
 	public:
 		Moving() : base(){};
 		Moving(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim) : base(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){};
-	private:
+		/* Movement Related */
+		float getAccX(), getAccY(), getDecX(), getJumpStartSpeed();
+		sf::Vector2f getSpeed() { return speed; }
+		sf::Vector2f getMaxSpeed() { return maxSpeed; }
+		sf::Vector2f getActualMaxSpeed() { return actualMaxSpeed; }
+		bool isJumping() { return jumping; }
+		void toggleJumping() { if (jumping)jumping = false; else jumping = true; }
 
+	private:
+		bool jumping;
+
+		sf::Vector2f direction;
+
+		float accX, decX;		//Acceleration/Deceleration to apply when the player moves/does not move
+		sf::Vector2f speed;		//Movement in the next frame (Pixels per frame)
+		sf::Vector2f maxSpeed;
+		sf::Vector2f actualMaxSpeed;
+		float jumpStartSpeed;
+		float accY;		//Force to apply because of gravity
+		std::pair<int, int> col_points[8];
 	};
 }
 
