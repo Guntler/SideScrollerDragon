@@ -13,9 +13,12 @@ Game::~Game()
 
 void Game::init(){
 	subjectA = new bases::Player(0,0,0,0,16,16,1,1);
-	subjectA->setPosition(0, 128);
+	subjectA->setPosition(200, 0);
 	int id = this->mManager->loadTexture("hitboxes.png");
 	subjectA->setTexture(*this->mManager->getTexture(id));
+	int cameraX = (int)subjectA->getPosition().x;
+	int cameraY = (int)subjectA->getPosition().y;
+
 	map = new GameMap();
 	string src = map->loadMap("testmap");
 	//map = new GameMap();
@@ -41,6 +44,7 @@ void Game::init(){
 		mapa[9][i]->setType(TileTypes::SOLID);
 	}*/
 	/* END MAP TESTING */
+
 	window->setView(mainView);
 }
 
@@ -81,14 +85,14 @@ void Game::update(){
 	Command * cmd;
 	int moveX = 0, moveY = 0;
 	if (inputHandler::checkKey(sf::Keyboard::Up).first)
-		moveY -= 1;
+		moveY -= 5;
 	if (inputHandler::checkKey(sf::Keyboard::Down).first)
-		moveY += 1;
+		moveY += 5;
 	if (inputHandler::checkKey(sf::Keyboard::Left).first)
-		moveX -= 1;
+		moveX -= 5;
 	if (inputHandler::checkKey(sf::Keyboard::Right).first)
-		moveX += 1;
-	Camera::scrollCamera(subjectA, &mainView, WINDOW_WIDTH, WINDOW_HEIGHT, map->getSize().x*16, map->getSize().y*16);
+		moveX += 5;
+	Camera::centerCamera(subjectA, &mainView, WINDOW_WIDTH, WINDOW_HEIGHT, map->getSize().x*16, map->getSize().y*16);
 	window->setView(mainView);
 	cmd = new MoveCommand(subjectA, moveX, moveY);
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();

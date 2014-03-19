@@ -4,5 +4,5 @@
 #include "GameObject.h"
 
 namespace Camera{
-	void scrollCamera(GameObject * obj, sf::View * View, int windowWidth, int windowsHeight, int mapWidth, int mapHeight);
+	void centerCamera(GameObject * obj, sf::View * view, int windowWidth, int windowsHeight, int mapWidth, int mapHeight);
 };
