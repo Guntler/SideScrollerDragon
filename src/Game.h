@@ -35,6 +35,7 @@ private:
 	bases::Tile * mapa[10][10];
 	sf::View mainView;
 	GameMap * map;
+	int iterations = 3;
 };
 
 #endif

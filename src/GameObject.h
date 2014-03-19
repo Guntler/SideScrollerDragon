@@ -51,5 +51,6 @@ protected:
 	std::pair<int, int> col_points[8];
 	bool jumping;
 	bool jumpKeyDown;
+	bool contact[3] = { false, false, false };
 };
 
