@@ -36,12 +36,14 @@ namespace bases{
 	{
 	public:
 		Tile() : GameObject(){ templateId = 0; };
-		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim, int id) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ this->templateId = id; };
+		Tile(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim, int id, float extraX, float extraY) : GameObject(x, y, imageX, imageY, imageWidth, imageHeight, maxFrame, maxAnim){ this->templateId = id; extraSpeed.x = extraX; extraSpeed.y = extraY; };
 		~Tile(){};
 		void setId(int id){ templateId = id; };
 		int getId(){ return templateId; };
+		sf::Vector2f getExtraSpeed() { return extraSpeed; }
 	private:
 		int templateId;
+		sf::Vector2f extraSpeed;
 	};
 
 	class Living : public GameObject

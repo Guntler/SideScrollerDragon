@@ -18,12 +18,20 @@ public:
 	GameObject(int x, int y, int imageX, int imageY, int imageWidth, int imageHeight, int maxFrame, int maxAnim);
 	~GameObject();
 	int getX(), getY(), getImageX(), getImageY(), getImageWidth(), getImageHeight(), getColWidth(), getColHeight(), getAnimSet(), getMaxFrame();
+	
+	/* Movement Related */
 	float getAccX(), getAccY(), getDecX(), getJumpStartSpeed();
+	sf::Vector2f getSpeed() { return speed; }
+	sf::Vector2f getMaxSpeed() { return maxSpeed; }
+	sf::Vector2f getActualMaxSpeed() { return actualMaxSpeed; }
+
+	/* Frame Related */
 	void nextFrame(), previousFrame(), nextAnimation(), previousAnimation();
 	CollisionTypes getIntersectingBorder(GameObject passiveObject);
 	sf::RectangleShape getColBox();
 	void setColBox(sf::RectangleShape box);
 	void updatePosition();
+
 protected:
 	int x,y,imageX,imageY,imageWidth,imageHeight,curFrame,maxFrame,curAnim,maxAnim,animSet,colWidth,colHeight;
 	sf::RectangleShape colBox;
@@ -32,6 +40,7 @@ protected:
 	float accX, decX;		//Acceleration/Deceleration to apply when the player moves/does not move
 	sf::Vector2f speed;		//Movement in the next frame (Pixels per frame)
 	sf::Vector2f maxSpeed;
+	sf::Vector2f actualMaxSpeed;
 	float jumpStartSpeed;
 	float accY;		//Force to apply because of gravity
 
