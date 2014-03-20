@@ -96,7 +96,7 @@ void Game::update(){
 	window->setView(mainView);
 
 	checkCollisions();
-	cout << nextMoveX << endl;
+	//cout << nextMoveX << endl;
 	cmd = new MoveCommand(subjectA, nextMoveX, nextMoveY);
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
@@ -145,15 +145,15 @@ void Game::checkCollisions()
 
 				//cout << map->getTileNumber(o)->getId() << endl;
 				//cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
-				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getX() + projectedMoveX,
-					subjectA->col_points[dir * 2].second + subjectA->getY() + projectedMoveY)
-					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first + subjectA->getX() + projectedMoveX,
-					subjectA->col_points[dir * 2 + 1].second + subjectA->getY() + projectedMoveY)) && map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0)
+				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + projectedMoveX,
+					subjectA->col_points[dir * 2].second + projectedMoveY)
+					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first + projectedMoveX,
+					subjectA->col_points[dir * 2 + 1].second + projectedMoveY)) && (map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0))
 				{
-					if (dir == 0) projectedMoveY++;
-					if (dir == 1) projectedMoveY--;
-					if (dir == 2) projectedMoveX++;
-					if (dir == 3) projectedMoveX--;
+					if (dir == 0) { projectedMoveY++; cout << "top established contact" << endl; }
+					if (dir == 1) { projectedMoveY--; cout << "bottom established contact" << endl; }
+					if (dir == 2) { projectedMoveX++; cout << "left established contact" << endl; }
+					if (dir == 3) { projectedMoveX--; cout << "right established contact" << endl; }
 				}
 				if (dir >= 2 && dir <= 3) {
 					nextMoveX = projectedMoveX; //cout << "heeeee" << endl;
@@ -164,13 +164,22 @@ void Game::checkCollisions()
 			// Detect what type of contact has occurred based on a comparison of
 			// the original expected movement vector and the new one
 			if (nextMoveY > originalMoveY && originalMoveY < 0)
+			{
+				cout << "top contact" << endl;
 				subjectA->setContactYTop(true);
+			}
 
 			if (nextMoveY < originalMoveY && originalMoveY > 0)
+			{
+				cout << "bottom contact" << endl;
 				subjectA->setContactYBottom(true);
+			}
 
 			if (abs(nextMoveX - originalMoveX) > 0.01f)
+			{
+				cout << "X contact" << endl;
 				subjectA->setContactX(true);
+			}
 
 			// The player can't continue jumping if we hit the side of something, must fall instead
 			// Without this, a player hitting a wall during a jump will continue trying to travel
