@@ -96,7 +96,7 @@ void Game::update(){
 	window->setView(mainView);
 
 	checkCollisions();
-
+	cout << nextMoveX << endl;
 	cmd = new MoveCommand(subjectA, nextMoveX, nextMoveY);
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
@@ -120,8 +120,10 @@ void Game::checkCollisions()
 
 	// Store the original final expected movement of the player so we can
 	// see if it has been modified due to a collision or potential collision later
-	originalMoveX = (float)nextMoveX;
-	originalMoveY = (float)nextMoveY;
+	originalMoveX = nextMoveX;
+	originalMoveY = nextMoveY;
+	
+	subjectA->setContactX(true); subjectA->setContactYTop(true); subjectA->setContactYBottom(true);
 
 	for (int iteration = 0; iteration < iterations && (subjectA->hasContactX() || subjectA->hasContactYTop() || subjectA->hasContactYBottom()); iteration++)
 	{
@@ -142,7 +144,7 @@ void Game::checkCollisions()
 				projectedMoveY = (dir < 2 ? nextMoveY : 0);
 
 				//cout << map->getTileNumber(o)->getId() << endl;
-				cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
+				//cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
 				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getX() + projectedMoveX,
 					subjectA->col_points[dir * 2].second + subjectA->getY() + projectedMoveY)
 					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first + subjectA->getX() + projectedMoveX,
@@ -153,7 +155,9 @@ void Game::checkCollisions()
 					if (dir == 2) projectedMoveX++;
 					if (dir == 3) projectedMoveX--;
 				}
-				if (dir >= 2 && dir <= 3) nextMoveX = projectedMoveX;
+				if (dir >= 2 && dir <= 3) {
+					nextMoveX = projectedMoveX; //cout << "heeeee" << endl;
+				}
 				if (dir >= 0 && dir <= 1) nextMoveY = projectedMoveY;
 				// Close the for loop (repeat for all four directions)
 			}
@@ -183,18 +187,15 @@ void Game::checkCollisions()
 		if (subjectA->hasContactYBottom() || subjectA->hasContactYTop())
 		{
 			subjectA->setSpeed(subjectA->getSpeed().x, 0);
-
+			nextMoveY = 0;
 			if (subjectA->hasContactYBottom())
 				subjectA->setJumping(false);
 		}
-		else
-			nextMoveY = 0;
 
 		if (subjectA->hasContactX())
 		{
+			nextMoveX = 0;
 			subjectA->setSpeed(0, subjectA->getSpeed().y);
 		}
-		else
-			nextMoveX = 0;
 	}
 }

@@ -37,7 +37,7 @@ private:
 	sf::View mainView;
 	GameMap * map;
 	int iterations = 3;
-	int nextMoveX, nextMoveY;
+	float nextMoveX, nextMoveY;
 };
 
 #endif
