@@ -145,10 +145,11 @@ void Game::checkCollisions()
 
 				//cout << map->getTileNumber(o)->getId() << endl;
 				//cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
-				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + projectedMoveX,
-					subjectA->col_points[dir * 2].second + projectedMoveY)
-					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first + projectedMoveX,
-					subjectA->col_points[dir * 2 + 1].second + projectedMoveY)) && (map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0))
+				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getX() + projectedMoveX,
+															 subjectA->col_points[dir * 2].second +subjectA->getY() + projectedMoveY)
+					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first+ subjectA->getX() + projectedMoveX,
+															subjectA->col_points[dir * 2 + 1].second+subjectA->getY() + projectedMoveY))
+					&& (map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0))
 				{
 					if (dir == 0) { projectedMoveY++; cout << "top established contact" << endl; }
 					if (dir == 1) { projectedMoveY--; cout << "bottom established contact" << endl; }
