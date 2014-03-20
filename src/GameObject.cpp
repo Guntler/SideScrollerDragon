@@ -28,6 +28,13 @@ GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int
 	this->colWidth = 16;
 	this->colHeight = 16;
 	colBox = sf::RectangleShape(sf::Vector2f((float)colWidth, (float)colHeight));
+	col_points[0] = std::make_pair(4, 0); col_points[1] = std::make_pair(colWidth-4, 0);
+	col_points[2] = std::make_pair(0, 4); col_points[3] = std::make_pair(colWidth, 4);
+	col_points[4] = std::make_pair(0, colHeight-4); col_points[5] = std::make_pair(colWidth, colHeight-4);
+	col_points[6] = std::make_pair(4, colHeight); col_points[7] = std::make_pair(colWidth-4, colHeight);
+	contact[0] = true;
+	contact[1] = true;
+	contact[2] = true;
 }
 
 GameObject::~GameObject()
@@ -54,6 +61,7 @@ void GameObject::nextAnimation(){if(maxAnim>curAnim){curAnim++;imageY+=imageHeig
 void GameObject::previousAnimation(){if(0!=curAnim){curAnim--;imageY-=imageHeight;}else{curAnim=maxAnim;imageY+=imageHeight*(maxAnim-1);}}
 void GameObject::setColBox(sf::RectangleShape box){ colBox = box; }
 sf::RectangleShape GameObject::getColBox(){ return colBox; }
+
 CollisionTypes GameObject::getIntersectingBorder(GameObject passiveObject)
 {
 	int activeLowerBound = passiveObject.getY() + passiveObject.getColHeight();
@@ -107,6 +115,7 @@ CollisionTypes GameObject::getIntersectingBorder(GameObject passiveObject)
 
 	return COL_NONE;
 }
+
 void GameObject::updatePosition()
 {
 

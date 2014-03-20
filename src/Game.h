@@ -26,6 +26,7 @@ public:
 	void init();
 	void loop();
 	void update();
+	void checkCollisions();
 	MediaManager * getManager();
 	RenderWindow * getWindow();
 private:
@@ -36,6 +37,7 @@ private:
 	sf::View mainView;
 	GameMap * map;
 	int iterations = 3;
+	int nextMoveX, nextMoveY;
 };
 
 #endif

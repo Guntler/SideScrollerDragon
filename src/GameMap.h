@@ -15,6 +15,17 @@ using sf::Texture;
 using sf::RenderWindow;
 using namespace std;
 
+class TileTemplate
+{
+public:
+	void addProperty(string attribute, int value) { templateMap.insert({ attribute, value }); }
+	int getValue(string attribute) {
+		return this->templateMap.find(attribute)->second;
+	};
+private:
+	unordered_map<string, int> templateMap;
+};
+
 class GameMap
 {
 public:
@@ -27,12 +38,15 @@ public:
 	string loadMap(string filename);
 	void loadDefault();
 	sf::Vector2i getSize();
+	vector<vector<bases::Tile *>> getCollisionLayer();
+	bases::Tile * getTileNumber(int no);
+	int getPassabilityAt(int id);
 private:
 	int id;
 	int width, height;
 	bases::Tile * ** background;
 	vector< vector<bases::Tile *> > layer1;
-	unordered_map<string, int> templateMap;
+	unordered_map<int, TileTemplate *> templateTiles;
 };
 
 #endif

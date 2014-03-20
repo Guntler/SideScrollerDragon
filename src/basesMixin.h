@@ -59,6 +59,20 @@ namespace bases{
 		void setId(int id){ templateId = id; };
 		int getId(){ return templateId; };
 		sf::Vector2f getExtraSpeed() { return extraSpeed; }
+		bool containsPoint(int x, int y)
+		{
+			int activeLowerBound = this->getY() + this->getColHeight();
+			int activeUpperBound = this->getY();
+			int activeBackwardBound = this->getX();
+			int activeForwardBound = this->getX() + this->getColWidth();
+
+			if (activeBackwardBound <= x && activeForwardBound >= x
+				&&	activeUpperBound <= y && activeLowerBound >= y)
+				return true;
+			else
+				return false;
+		}
+
 	private:
 		int templateId;
 		sf::Vector2f extraSpeed;

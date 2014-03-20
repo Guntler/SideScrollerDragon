@@ -140,7 +140,10 @@ string GameMap::loadMap(string filename)
 									attribute = pProperty->Attribute("name");
 									value = atoi(pProperty->Attribute("value"));
 
-									templateMap.insert({ attribute, value });
+									TileTemplate * newTemplate = new TileTemplate();
+									newTemplate->addProperty(attribute, value);
+
+									templateTiles.insert({ tilePropId, newTemplate });
 
 									pProperty = pProperty->NextSiblingElement();
 								}
@@ -211,4 +214,28 @@ string GameMap::loadMap(string filename)
 	}
 
 	return srcImage;
+}
+
+vector<vector<bases::Tile *>> GameMap::getCollisionLayer()
+{
+	return layer1;
+}
+
+bases::Tile * GameMap::getTileNumber(int no)
+{
+	int x = 0, y = 0;
+	int tempNo = no;
+	while (tempNo >= this->width)
+	{
+		tempNo = tempNo - width;
+		y++;
+	}
+	x = tempNo;
+
+	return this->layer1[y][x];
+}
+
+int GameMap::getPassabilityAt(int id)
+{
+	return templateTiles.find(id)->second->getValue("passability");
 }
