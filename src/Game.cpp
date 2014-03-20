@@ -146,9 +146,9 @@ void Game::checkCollisions()
 				//cout << map->getTileNumber(o)->getId() << endl;
 				//cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
 				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getX() + projectedMoveX,
-															 subjectA->col_points[dir * 2].second +subjectA->getY() + projectedMoveY)
-					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first+ subjectA->getX() + projectedMoveX,
-															subjectA->col_points[dir * 2 + 1].second+subjectA->getY() + projectedMoveY))
+															subjectA->col_points[dir * 2].second + subjectA->getY() + projectedMoveY)
+					||  map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first+ subjectA->getX() + projectedMoveX,
+															subjectA->col_points[dir * 2 + 1].second+ subjectA->getY() + projectedMoveY))
 					&& (map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0))
 				{
 					if (dir == 0) { projectedMoveY++; cout << "top established contact" << endl; }
@@ -156,12 +156,10 @@ void Game::checkCollisions()
 					if (dir == 2) { projectedMoveX++; cout << "left established contact" << endl; }
 					if (dir == 3) { projectedMoveX--; cout << "right established contact" << endl; }
 				}
-				if (dir >= 2 && dir <= 3) {
-					nextMoveX = projectedMoveX; //cout << "heeeee" << endl;
-				}
+				if (dir >= 2 && dir <= 3) nextMoveX = projectedMoveX;
 				if (dir >= 0 && dir <= 1) nextMoveY = projectedMoveY;
-				// Close the for loop (repeat for all four directions)
 			}
+
 			// Detect what type of contact has occurred based on a comparison of
 			// the original expected movement vector and the new one
 			if (nextMoveY > originalMoveY && originalMoveY < 0)
