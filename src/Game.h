@@ -25,6 +25,7 @@ public:
 	~Game();
 	void init();
 	void loop();
+	void checkMovement();
 	void update();
 	void checkCollisions();
 	MediaManager * getManager();
@@ -36,8 +37,10 @@ private:
 	bases::Tile * mapa[10][10];
 	sf::View mainView;
 	GameMap * map;
-	int iterations = 3;
+	int iterations = 10;
 	float nextMoveX, nextMoveY;
+	bool jumpKeyDown;
+	bool moveRequest;
 };
 
 #endif

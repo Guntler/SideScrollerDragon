@@ -27,11 +27,20 @@ GameObject::GameObject(int x, int y, int imageX, int imageY, int imageWidth, int
 	this->animSet = 0;
 	this->colWidth = 16;
 	this->colHeight = 16;
+	maxSpeed.x = 5.0f * mScale;
+	maxSpeed.y = 10.0f * mScale;
+	speed.x = 0;
+	speed.y = 0;
+	jumpStartSpeed = 10.f*mScale;
+	accX = 0.2f * mScale;
+	decX = 0.3f * mScale;
+	accY = 0.5f * mScale;
+
 	colBox = sf::RectangleShape(sf::Vector2f((float)colWidth, (float)colHeight));
-	col_points[0] = std::make_pair(4, 0); col_points[1] = std::make_pair(colWidth-4, 0);
-	col_points[2] = std::make_pair(0, 4); col_points[3] = std::make_pair(colWidth, 4);
-	col_points[4] = std::make_pair(0, colHeight-4); col_points[5] = std::make_pair(colWidth, colHeight-4);
-	col_points[6] = std::make_pair(4, colHeight); col_points[7] = std::make_pair(colWidth-4, colHeight);
+	col_points[0] = std::make_pair(3, 0); col_points[1] = std::make_pair(colWidth-4, 0);	//Head
+	col_points[2] = std::make_pair(3, colHeight-1); col_points[3] = std::make_pair(colWidth - 4, colHeight-1);	//Feet
+	col_points[4] = std::make_pair(2, 4); col_points[5] = std::make_pair(2, colHeight - 4);		//Left Arm
+	col_points[6] = std::make_pair(colWidth-1, 4); col_points[7] = std::make_pair(colWidth-1, colHeight - 4);	//Right Arm
 	contact[0] = true;
 	contact[1] = true;
 	contact[2] = true;

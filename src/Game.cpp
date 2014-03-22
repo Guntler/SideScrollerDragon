@@ -12,6 +12,8 @@ Game::~Game()
 }
 
 void Game::init(){
+	jumpKeyDown = false;
+	moveRequest = false;
 	subjectA = new bases::Player(0,0,0,0,16,16,1,1);
 	subjectA->setPosition(200, 0);
 	int id = this->mManager->loadTexture("hitboxes.png");
@@ -81,23 +83,55 @@ void Game::loop(){
 
 void Game::update(){
 	inputHandler::update();
-
-	Command * cmd;
+	
 	nextMoveX = nextMoveY = 0;
-	if (inputHandler::checkKey(sf::Keyboard::Up).first)
-		nextMoveY -= 5;
-	if (inputHandler::checkKey(sf::Keyboard::Down).first)
-		nextMoveY += 5;
-	if (inputHandler::checkKey(sf::Keyboard::Left).first)
-		nextMoveX -= 5;
-	if (inputHandler::checkKey(sf::Keyboard::Right).first)
-		nextMoveX += 5;
-	Camera::centerCamera(subjectA, &mainView, WINDOW_WIDTH, WINDOW_HEIGHT, map->getSize().x*16, map->getSize().y*16);
-	window->setView(mainView);
 
-	checkCollisions();
-	//cout << nextMoveX << endl;
+	nextMoveX = subjectA->getSpeed().x / 10;
+	nextMoveY = subjectA->getSpeed().y / 100;
+	Command * cmd;
 	cmd = new MoveCommand(subjectA, nextMoveX, nextMoveY);
+	Camera::centerCamera(subjectA, &mainView, WINDOW_WIDTH, WINDOW_HEIGHT, map->getSize().x * 16, map->getSize().y * 16);
+	window->setView(mainView);
+	cmd->execute();
+	delete cmd;
+
+	if (inputHandler::checkKey(sf::Keyboard::Up).first && !subjectA->isJumping() && !jumpKeyDown)
+	{
+		subjectA->setJumping(true);
+		jumpKeyDown = true;
+		moveRequest = true;
+		subjectA->addSpeed(0, -subjectA->getJumpStartSpeed());
+		//nextMoveY -= 5;
+	}
+
+	if (!inputHandler::checkKey(sf::Keyboard::Up).first)
+	{
+		jumpKeyDown = false;
+	}
+
+	/*if (inputHandler::checkKey(sf::Keyboard::Down).first)
+	{
+		subjectA->addSpeed(subjectA->getAccX(), 0);
+		nextMoveY += 5;
+	}*/
+
+	if (inputHandler::checkKey(sf::Keyboard::Left).first)
+	{
+		subjectA->addSpeed(-subjectA->getAccX(),0);
+		moveRequest = true;
+		//nextMoveX -= 5;
+	}
+	if (inputHandler::checkKey(sf::Keyboard::Right).first)
+	{
+		subjectA->addSpeed(subjectA->getAccX(), 0);
+		moveRequest = true;
+		//nextMoveX += 5;
+	}
+
+	checkMovement();
+	checkCollisions();
+
+	//cout << nextMoveX << endl;
 	int x = subjectA->getImageX() + subjectA->getImageWidth()*subjectA->getMaxFrame()*subjectA->getAnimSet();
 	subjectA->setTextureRect(sf::IntRect(x, subjectA->getImageY(), subjectA->getImageWidth(), subjectA->getImageHeight()));
 
@@ -110,8 +144,32 @@ void Game::update(){
 	/* TEST MAP DRAW END */
 
 	subjectA->nextFrame();
-	cmd->execute();
-	delete cmd;
+
+	moveRequest = false;
+}
+
+void Game::checkMovement()
+{
+	// Limit the sideways acceleration of the player
+	if (subjectA->getSpeed().x > subjectA->getMaxSpeed().x) subjectA->setSpeed(subjectA->getMaxSpeed().x,subjectA->getSpeed().y);
+	if (subjectA->getSpeed().x < -subjectA->getMaxSpeed().x) subjectA->setSpeed(-subjectA->getMaxSpeed().x, subjectA->getSpeed().y); // Limit the force of gravity (terminal velocity) if (speedY > maxSpeedY) speedY = maxSpeedY;
+	if (subjectA->getSpeed().y < -subjectA->getMaxSpeed().y) subjectA->setSpeed(subjectA->getSpeed().x, -subjectA->getMaxSpeed().y);
+
+	// Apply the force of gravity
+	subjectA->addSpeed(0, subjectA->getAccY());
+
+	if (!moveRequest)
+	{
+		if (subjectA->getSpeed().x < 0) subjectA->addSpeed(subjectA->getDecX(), 0);
+		if (subjectA->getSpeed().x > 0) subjectA->addSpeed(-subjectA->getDecX(), 0);
+
+		// Deceleration may produce a speed that is greater than zero but
+		// smaller than the smallest unit of deceleration. These lines ensure
+		// that the player does not keep travelling at slow speed forever after
+		// decelerating.
+		if (subjectA->getSpeed().x > 0 && subjectA->getSpeed().x < subjectA->getDecX()) subjectA->setSpeed(0, subjectA->getSpeed().y);
+		if (subjectA->getSpeed().x < 0 && subjectA->getSpeed().x > -subjectA->getDecX()) subjectA->setSpeed(0, subjectA->getSpeed().y);
+	}
 }
 
 void Game::checkCollisions()
@@ -120,13 +178,17 @@ void Game::checkCollisions()
 
 	// Store the original final expected movement of the player so we can
 	// see if it has been modified due to a collision or potential collision later
-	originalMoveX = nextMoveX;
-	originalMoveY = nextMoveY;
 	
 	subjectA->setContactX(true); subjectA->setContactYTop(true); subjectA->setContactYBottom(true);
 
 	for (int iteration = 0; iteration < iterations && (subjectA->hasContactX() || subjectA->hasContactYTop() || subjectA->hasContactYBottom()); iteration++)
 	{
+		nextMoveX = subjectA->getSpeed().x / 10;
+		nextMoveY = subjectA->getSpeed().y / 100;
+
+		originalMoveX = nextMoveX;
+		originalMoveY = nextMoveY;
+
 		subjectA->setContactX(false); subjectA->setContactYTop(false); subjectA->setContactYBottom(false);
 
 		// Iterate over each object whose bounding box intersects with the player's bounding box
@@ -143,18 +205,16 @@ void Game::checkCollisions()
 				projectedMoveX = (dir >= 2 ? nextMoveX : 0);
 				projectedMoveY = (dir < 2 ? nextMoveY : 0);
 
-				//cout << map->getTileNumber(o)->getId() << endl;
-				//cout << map->getPassabilityAt(map->getTileNumber(o)->getId()) << endl;
-				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getX() + projectedMoveX,
-															subjectA->col_points[dir * 2].second + subjectA->getY() + projectedMoveY)
-					||  map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first+ subjectA->getX() + projectedMoveX,
-															subjectA->col_points[dir * 2 + 1].second+ subjectA->getY() + projectedMoveY))
+				while ((map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2].first + subjectA->getPosition().x + projectedMoveX,
+															 subjectA->col_points[dir * 2].second + subjectA->getPosition().y + projectedMoveY)
+					|| map->getTileNumber(o)->containsPoint(subjectA->col_points[dir * 2 + 1].first + subjectA->getPosition().x + projectedMoveX,
+															subjectA->col_points[dir * 2 + 1].second + subjectA->getPosition().y + projectedMoveY))
 					&& (map->getPassabilityAt(map->getTileNumber(o)->getId()) != 0))
 				{
-					if (dir == 0) { projectedMoveY++; cout << "top established contact" << endl; }
-					if (dir == 1) { projectedMoveY--; cout << "bottom established contact" << endl; }
-					if (dir == 2) { projectedMoveX++; cout << "left established contact" << endl; }
-					if (dir == 3) { projectedMoveX--; cout << "right established contact" << endl; }
+					if (dir == 0) { projectedMoveY++; /*cout << "top established contact" << endl;*/ }
+					if (dir == 1) { projectedMoveY--; /*cout << "bottom established contact" << endl;*/ }
+					if (dir == 2) { projectedMoveX++; /*cout << "left established contact" << endl;*/ }
+					if (dir == 3) { projectedMoveX--; /*cout << "right established contact" << endl;*/ }
 				}
 				if (dir >= 2 && dir <= 3) nextMoveX = projectedMoveX;
 				if (dir >= 0 && dir <= 1) nextMoveY = projectedMoveY;
@@ -164,19 +224,19 @@ void Game::checkCollisions()
 			// the original expected movement vector and the new one
 			if (nextMoveY > originalMoveY && originalMoveY < 0)
 			{
-				cout << "top contact" << endl;
+				//cout << "top contact" << endl;
 				subjectA->setContactYTop(true);
 			}
 
 			if (nextMoveY < originalMoveY && originalMoveY > 0)
 			{
-				cout << "bottom contact" << endl;
+				//cout << "bottom contact" << endl;
 				subjectA->setContactYBottom(true);
 			}
 
 			if (abs(nextMoveX - originalMoveX) > 0.01f)
 			{
-				cout << "X contact" << endl;
+				//cout << "X contact" << endl;
 				subjectA->setContactX(true);
 			}
 
@@ -195,15 +255,19 @@ void Game::checkCollisions()
 		if (subjectA->hasContactYBottom() || subjectA->hasContactYTop())
 		{
 			subjectA->setSpeed(subjectA->getSpeed().x, 0);
-			nextMoveY = 0;
+			Command * cmd = new MoveCommand(subjectA, 0, nextMoveY);
+			cmd->execute();
+			delete cmd;
 			if (subjectA->hasContactYBottom())
 				subjectA->setJumping(false);
 		}
 
 		if (subjectA->hasContactX())
 		{
-			nextMoveX = 0;
+			Command * cmd = new MoveCommand(subjectA, nextMoveX, 0);
+			cmd->execute();
 			subjectA->setSpeed(0, subjectA->getSpeed().y);
+			delete cmd;
 		}
 	}
 }

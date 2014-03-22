@@ -40,6 +40,7 @@ public:
 	void setContactX(bool state) { contact[0] = state; }
 	void setContactYTop(bool state) { contact[1] = state; }
 	void setContactYBottom(bool state) { contact[2] = state; }
+	void addSpeed(float x, float y) { speed.x += x; speed.y += y; }
 	/* Frame Related */
 	void nextFrame(), previousFrame(), nextAnimation(), previousAnimation();
 	CollisionTypes getIntersectingBorder(GameObject passiveObject);
