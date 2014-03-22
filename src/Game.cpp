@@ -83,9 +83,11 @@ void Game::loop(){
 
 void Game::update(){
 	inputHandler::update();
-	
+	updateTick = GetTickCount();
 	nextMoveX = nextMoveY = 0;
 
+	//nextMoveX = linearMovement(subjectA->getSpeed().x, updateTick);
+	//nextMoveY = linearMovement(subjectA->getSpeed().y, updateTick);
 	nextMoveX = subjectA->getSpeed().x / 10;
 	nextMoveY = subjectA->getSpeed().y / 100;
 	Command * cmd;
@@ -146,6 +148,7 @@ void Game::update(){
 	subjectA->nextFrame();
 
 	moveRequest = false;
+	lastUpdateTime = updateTick;
 }
 
 void Game::checkMovement()
@@ -270,4 +273,13 @@ void Game::checkCollisions()
 			delete cmd;
 		}
 	}
+}
+
+float Game::linearMovement(float pixelsPerSecond, DWORD tickCount)
+{
+	if (!tickCount)
+		tickCount = GetTickCount();
+
+	float secs_elapsed = (tickCount - lastUpdateTime) / 1000.0f;
+	return secs_elapsed * pixelsPerSecond;
 }

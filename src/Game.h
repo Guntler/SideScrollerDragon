@@ -12,6 +12,7 @@
 #include "GameMap.h"
 #include "InputHandler.h"
 #include "Camera.h"
+#include "Windows.h"
 
 using sf::RenderWindow;
 using sf::VideoMode;
@@ -30,6 +31,7 @@ public:
 	void checkCollisions();
 	MediaManager * getManager();
 	RenderWindow * getWindow();
+	float linearMovement(float pixelsPerSecond, DWORD tickCount);
 private:
 	MediaManager * mManager;
 	RenderWindow * window;
@@ -37,10 +39,12 @@ private:
 	bases::Tile * mapa[10][10];
 	sf::View mainView;
 	GameMap * map;
-	int iterations = 10;
+	int iterations = 20;
 	float nextMoveX, nextMoveY;
 	bool jumpKeyDown;
 	bool moveRequest;
+	float lastUpdateTime;
+	int updateTick;
 };
 
 #endif
